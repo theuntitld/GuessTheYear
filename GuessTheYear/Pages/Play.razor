@@ -1,0 +1,82 @@
+﻿@page "/play"
+
+@inject Data.GamePlay GamePlay;
+@implements IDisposable
+
+<div style="padding:20px;">
+    <h3>Game Play</h3>
+
+    <input @bind-value="code" placeholder="Code" />
+    <input @bind-value="name" placeholder="Name" />
+
+    <button class="btn btn-primary" @onclick="Update">Update</button>
+
+    @if (stage == 0)
+    {
+        <div>Game Has Not Started Yet.</div>
+    }
+    else if (stage > GamePlay.Stages.Count)
+    {
+        <div>Game is Over</div>
+    }
+    else
+    {
+        <div>Stage: @stage</div>
+
+        <input @bind-value="answer" />
+
+        <button class="btn btn-primary" @onclick="Answer">Answer</button>
+    }
+</div>
+
+@code {
+
+    string code = default!;
+
+    string name = default!;
+
+    public Data.Player? player;
+
+    int stage;
+
+    int answer;
+
+    // Don't forget to unsubscribe when the component is disposed
+    public void Dispose()
+    {
+        GamePlay.StageChanged -= HandleStageChanged!;
+
+        if (player != null)
+            this.GamePlay.RemovePlayer(player);
+    }
+
+    protected override void OnInitialized()
+    {
+        this.stage = GamePlay.Stage;
+        GamePlay.StageChanged += HandleStageChanged!;
+    }
+
+    private void HandleStageChanged(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield(); // Ensures that the rendering process has a chance to execute
+            this.stage = GamePlay.Stage;
+            StateHasChanged(); // Notify Blazor to re-render the component
+        });
+    }
+
+    private void Answer()
+    {
+        if (this.player != null)
+            this.GamePlay.Answer(player, this.stage, answer);
+    }
+
+    private void Update()
+    {
+        if (this.player != null)
+            this.GamePlay.RemovePlayer(player);
+
+        this.player = this.GamePlay.AddPlayer(code, name);
+    }
+}

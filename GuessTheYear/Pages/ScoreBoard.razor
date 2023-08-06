@@ -1,0 +1,44 @@
+﻿@inject IJSRuntime JSRuntime
+
+<style>
+    .list-move, /* apply transition to moving elements */
+    .list-enter-active,
+    .list-leave-active {
+        transition: all 0.5s ease;
+    }
+
+    .list-enter-from,
+    .list-leave-to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    /* ensure leaving items are taken out of layout flow so that moving
+       animations can be calculated correctly. */
+    .list-leave-active {
+        position: absolute;
+    }
+</style>
+
+<div id="@id">
+    <h1>Scor Board</h1>
+    <transition-group name="list" tag="ul">
+        <li v-for="player in playerScores" :key="player.id">
+            <strong>{{ player.name }}</strong>: {{ player.score }}
+        </li>
+    </transition-group>
+</div>
+
+@code {
+    string id = "id-" + Guid.NewGuid().ToString();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("scoreBoardVueApp", this.id);
+    }
+
+    protected override bool ShouldRender()
+    {
+        return false;
+    }
+}
