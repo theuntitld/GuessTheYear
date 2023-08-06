@@ -6,7 +6,8 @@ public class GamePlay
 {
     public GamePlay() {
         var validCodes = new List<string>() {
-            "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"
+            "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+            "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
         };
 
         foreach (var code in validCodes)
