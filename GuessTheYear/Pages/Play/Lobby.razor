@@ -6,15 +6,15 @@
 
     <div class="body @(ShowRules ? "minimize" : "")">
         <div>
-            
+
         </div>
 
         <div>
-            <h1 style="color:black; text-align:center;">The game has not<br />started yet.</h1>
-            <h6 style="color:black; text-align:center;">Please be patient</h6>
+            <h1 class="scale-down-on-minimize @(ShowRules ? "minimize" : "")" style="color:black; text-align:center;">The game has not<br />started yet.</h1>
+            <h6 class="hide-on-minimize @(ShowRules ? "minimize" : "")" style="color:black; text-align:center;">Please be patient</h6>
         </div>
 
-        <div style="justify-content:center; display:flex;">
+        <div class="hide-on-minimize @(ShowRules ? "minimize" : "")" style="justify-content:center; display:flex;">
             <h6 @onclick="() => {ShowRules = true;}" style="color:black; text-align:center;">
                 <div style="font-size:25px;">🧾</div>
                 <br/>

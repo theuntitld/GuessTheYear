@@ -8,11 +8,15 @@
     transition: 0.5s;
     visibility: hidden;
     opacity: 0;
+    z-index: -100;
     position: absolute;
     transform: translateY(-30px);
+    pointer-events: none;
 }
 
     .page.show {
+        z-index: 1;
+        pointer-events: all;
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
@@ -61,14 +65,14 @@
         transition: 0.5s;
     }
 
-    .page .body.minimize h1 {
+/*.page .body.minimize h1 {
         font-size: 18px;
     }
 
     .page .body.minimize h6 {
         transform: scale(0);
         opacity: 0;
-    }
+    }*/
 
 .display-name-input {
     border: none;
@@ -110,24 +114,34 @@
     background-color: black;
 }
 
-.hide-on-maximize, .show-on-maximize {
+.hide-on-maximize, .show-on-maximize, hide-on-minimize {
     transition: 0.5s;
 }
 
-    .show-on-maximize{
-        opacity:0;
-        visibility:hidden;
-        transform: scaleY(0);
-    }
+.hide-on-minimize.minimize {
+    opacity:0;
+    visibility:hidden;
+    transform:scale(0);
+}
 
-    .hide-on-maximize.maximize {
-        opacity: 0;
-    }
+.show-on-maximize {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+}
+
+.hide-on-maximize.maximize {
+    opacity: 0;
+}
 
 .show-on-maximize.maximize {
     opacity: 1;
-    transform:scaleY(1);
-    visibility:visible;
+    transform: scale(1);
+    visibility: visible;
+}
+
+.scale-down-on-minimize.minimize{
+    transform:scale(0.6);
 }
 
 .hide {
