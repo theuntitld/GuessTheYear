@@ -42,7 +42,7 @@ public class GamePlay
 
     public Dictionary<int, int> Stages = new()
     {
-        { 1,  1950},
+        { 1,  1945},
         { 2,  1960},
         { 3,  1970},
         { 4,  1980},
