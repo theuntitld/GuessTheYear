@@ -1,0 +1,35 @@
+﻿<div class="page black-bg @(Visible ? "show" : "")">
+    <div class="header">
+        <img src="/imgs/untitld logo green.svg" style="max-width:150px;" />
+    </div>
+
+    <div class="body">
+        <div>
+            <h1 style="color:white; text-align:center;">Welcome to untitld game</h1>
+        </div>
+
+        <div>
+            <div style="color:white;">Choose your display name</div>
+            <input placeholder="e.g. Ahmed Helicopter" @bind-value="name" class="display-name-input" />
+            <div style="color:white;">What a great name</div>
+        </div>
+
+        <div style="justify-content:center; display:flex;">
+            <button class="save-button" @onclick="async () => { await this.NameSaved.InvokeAsync(this.name); }">Save</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span style="color:grey;">#18402nddf</span>
+    </div>
+</div>
+
+@code {
+    private string? name = null;
+
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public EventCallback<string> NameSaved { get; set; }
+}

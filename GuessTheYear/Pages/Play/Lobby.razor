@@ -1,0 +1,64 @@
+﻿<div class="page green-bg @(Visible ? "show" : "")">
+    <div class="header">
+        <h3 style="margin:0;"><button @onclick="async () => {await SettingsOpened.InvokeAsync();}">⚙️</button> @Name</h3>
+        <img src="/imgs/un symbol bk.svg" style="max-width:50px;"/>
+    </div>
+
+    <div class="body @(ShowRules ? "minimize" : "")">
+        <div>
+            
+        </div>
+
+        <div>
+            <h1 style="color:black; text-align:center;">The game has not<br />started yet.</h1>
+            <h6 style="color:black; text-align:center;">Please be patient</h6>
+        </div>
+
+        <div style="justify-content:center; display:flex;">
+            <h6 @onclick="() => {ShowRules = true;}" style="color:black; text-align:center;">
+                <div style="font-size:25px;">🧾</div>
+                <br/>
+                Maybe read the ruls while you wait.
+            </h6>
+        </div>
+    </div>
+
+    <div class="footer @(ShowRules ? "maximize" : "") black-bg-on-maximize" style="position:relative;">
+        <span class="hide-on-maximize @(ShowRules ? "maximize" : "")" style="color:grey;">#18402nddf</span>
+        <div class="show-on-maximize @(ShowRules ? "maximize" : "")">
+            <button @onclick="()=>{ ShowRules = false; }" style="float:right; color:#cdfe00; border: 3px solid #cdfe00; border-radius:3px; background-color:black; outline:none; padding:2px 6px; font-size:14px; font-weight:bold;">
+                X
+            </button>
+
+            <div style="display:flex; flex-direction:column; justify-content:center;">
+                <div style="color:#cdfe00;">
+                    <div style="text-align:center; font-size:25px;">
+                        🧾
+                    </div>
+                    The rules of the game are very simple. Just follow these:
+                </div>
+
+                <ul style="color:#cdfe00;">
+                    <li>You will be shown a picture. And your job is to guess the year it was taken in.</li>
+                    <li>The closer the guess is the higher your points.</li>
+                    <li>Get the most points on all rounds and be crowned the winner.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@code {
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public string Name { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<string> SettingsOpened { get; set; }
+
+    private bool ShowRules = false;
+}

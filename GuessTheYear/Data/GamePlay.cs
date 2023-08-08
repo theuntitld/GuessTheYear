@@ -6,14 +6,26 @@ public class GamePlay
 {
     public GamePlay() {
         var validCodes = new List<string>() {
-            "e7nrs9n6os", "rpk3a8lywk", "qsz4xamqer", "c1v3z5ox5k", "5lo42wg0s6", "1ehyis6gco", "9hci20obim",
-            "llp7yu7w91", "gr9nsosjkq", "nfiu995atd", "va1ascb9rc", "hpm4fmg8gb", "m34fyr5hht", "bn58hudd61",
-            "ubgprtokml", "73az1zl1i4", "3fzuckbkc4", "iywboa393v", "7xd2jtq04l", "c9iyc4shac", "lre9nt5sdq",
-            "y8u4jkr133", "jocme7e65q", "bxxu7ttz90", "cz9ubc1uxa", "1q3jt2hwgh", "g3vbw96nyu", "drh67nrpg1", 
-            "rq9t55an1z", "w8ylt2uyvp", "ao7y19b8r2", "99h7fkw4gi", "dvo4zyjuzu", "qpahabeaqf", "ikzafgq55y", 
-            "0iqyr9opfd", "1nmdn2qitq", "kqya87lqbd", "czln1skfr9", "zfmtjcdxb4", "2i8pztuvnj", "681ik30wy9",
-            "p3gu626wn7", "9i78d471ng", "lv8wfy915y", "ivs5qqtwnt", "eq0u787it2", "5f8k8j68lx", "t8qtqbm220",
-            "w1928qbla3",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20"
         };
 
         foreach (var code in validCodes)
