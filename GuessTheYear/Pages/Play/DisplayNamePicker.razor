@@ -9,13 +9,13 @@
         </div>
 
         <div>
-            <div style="color:white;">Choose your display name</div>
+            <div style="color:white; margin-bottom: 10px;">Choose your display name</div>
             <input placeholder="e.g. Ahmed Helicopter" @bind-value="name" class="display-name-input" />
-            <div style="color:white;">What a great name</div>
+            <div style="color:white; margin-top: 5px; @(name != null && name.Length > 0 ? "visibility: visible" : "visibility: hidden")">What a great name</div>
         </div>
 
         <div style="justify-content:center; display:flex;">
-            <button class="save-button" @onclick="async () => { await this.NameSaved.InvokeAsync(this.name); }">Save</button>
+            <button class="save-button" style="@(name != null && name.Length > 0 ? "background-color: #CDFE00" : "background-color: grey")" @onclick="async () => { await this.NameSaved.InvokeAsync(this.name); }">Submit</button>
         </div>
     </div>
 
@@ -26,6 +26,8 @@
 
 @code {
     private string? name = null;
+
+    private int? nameLength = null;
 
     [Parameter]
     public bool Visible { get; set; }
