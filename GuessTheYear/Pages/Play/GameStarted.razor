@@ -19,7 +19,7 @@
         </div>
 
         <div style="justify-content:center; display:flex;">
-            <button class="save-button" style="background-color: #cdfe00;" @onclick="async () => {}">Submit</button>
+            <button class="save-button" style="background-color: #cdfe00;" @onclick="async () => { await AnswerSubmitted.InvokeAsync(); }">Submit</button>
         </div>
     </div>
 </div>
@@ -33,4 +33,7 @@
 
     [Parameter]
     public EventCallback<string> SettingsOpened { get; set; }
+
+    [Parameter]
+    public EventCallback<string> AnswerSubmitted { get; set; }
 }

@@ -9,7 +9,12 @@
 
 <GameStarted Visible="@showGameStarted"
              SettingsOpened="() => { this.showNamePicker = true; this.showGameStarted = false; }"
-             Name="@name" />
+             Name="@name" 
+             AnswerSubmitted="() => {this.showGameStarted = false; showScoreboard = true;}" />
+
+<Scoreboard Visible="@showScoreboard"
+            SettingsOpened="() => { this.showNamePicker = true; this.showScoreboard = false; }"
+            Name="@name" />
 
 @code {
     private string? name = null;
@@ -27,11 +32,5 @@
         // this case is only for testing purposes
         showNamePicker = false;
         showGameStarted = true;
-    }
-
-    private void SubmitAnswer()
-    {
-        showGameStarted = false;
-        showScoreboard = true;
     }
 }

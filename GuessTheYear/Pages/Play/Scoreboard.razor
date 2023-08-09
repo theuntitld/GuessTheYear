@@ -1,0 +1,55 @@
+﻿<div class="page green-bg @(Visible ? "show" : "")">
+    <div class="header">
+        <img src="/imgs/Untitld Logo Black.svg" style="max-width:150px;" />
+        <h3 style="margin:0; color: black;">@Name</h3>
+    </div>
+    
+    <div class="body">
+        <div style="text-align: center;">
+            <h1>Final Scoreboard</h1>
+        </div>
+        
+        <div style="width: 100%; height: 80%; margin-bottom: 20px;">
+            <div style="height: 100%; width: 65%; margin: 0 auto;">
+                <table style="width: 100%; height: 100%;">
+                    @foreach (var (name, score) in scores)
+                    {
+                        <tr class="scoreboard-row">
+                            <div>
+                                <td>#@(scores.IndexOf((name, score)) + 1)</td>
+                                <td>@name</td>
+                            </div>
+                            <td>@score</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private List<(string name, int score)> scores = new List<(string name, int score)>()
+    {
+        ("Ahmed", 100),
+        ("Mohamed", 200),
+        ("Ali", 300),
+        ("Hassan", 400),
+        ("Khaled", 500),
+        ("Omar", 600),
+        ("Mahmoud", 700),
+        ("Youssef", 800),
+        ("Amr", 900),
+        ("Ibrahim", 1000),
+    };
+    
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public string Name { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<string> SettingsOpened { get; set; }
+}

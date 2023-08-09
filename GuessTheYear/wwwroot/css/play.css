@@ -109,6 +109,15 @@
     padding: 10px;
 }
 
+.scoreboard-row {
+    display: flex;
+    border-bottom: 1px solid black;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
     .save-button:hover, .save-button:active {
         background-color: #cdfe00;
     }
