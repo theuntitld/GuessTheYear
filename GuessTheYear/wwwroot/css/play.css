@@ -12,6 +12,7 @@
     position: absolute;
     transform: translateY(-30px);
     pointer-events: none;
+    padding: 10px;
 }
 
     .page.show {
@@ -40,12 +41,28 @@
     justify-content: space-between;
 }
 
+.page .score-display {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #cdfe00;
+}
+
+.page .stage-display {
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
 .black-bg .header {
     border-bottom: 1px solid #cdfe00;
+    padding-bottom: 15px;
 }
 
 .green-bg .header {
     border-bottom: 1px solid black;
+    padding-bottom: 15px;
 }
 
 .page .body {
@@ -85,11 +102,11 @@
 }
 
 .save-button {
-    background-color: grey;
     border: none;
     outline: none;
     transition: 0.3s;
     font-size: 22px;
+    padding: 10px;
 }
 
     .save-button:hover, .save-button:active {
@@ -99,6 +116,7 @@
 .page .footer {
     width: 100%;
     transition: 0.5s;
+    padding: 10px;
 }
 
 .maximize, .minimize {
@@ -141,7 +159,8 @@
 }
 
 .scale-down-on-minimize.minimize{
-    transform:scale(0.6);
+    transform:scale(0.8);
+    margin-top: 20px
 }
 
 .hide {

@@ -7,15 +7,31 @@
        SettingsOpened="() => { this.showNamePicker = true; this.showLobby = false; }"
        Name="@name" />
 
+<GameStarted Visible="@showGameStarted"
+             SettingsOpened="() => { this.showNamePicker = true; this.showGameStarted = false; }"
+             Name="@name" />
+
 @code {
     private string? name = null;
 
     private bool showNamePicker = true;
     private bool showLobby = false;
+    private bool showGameStarted = false;
+    private bool showScoreboard = false;
 
     private void SaveName()
     {
+        //showNamePicker = false;
+        //showLobby = true;
+
+        // this case is only for testing purposes
         showNamePicker = false;
-        showLobby = true;
+        showGameStarted = true;
+    }
+
+    private void SubmitAnswer()
+    {
+        showGameStarted = false;
+        showScoreboard = true;
     }
 }
