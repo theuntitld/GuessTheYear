@@ -1,4 +1,4 @@
-﻿<div class="page black-bg @(Visible ? "show" : "")">
+﻿<div class="page padded black-bg @(Visible ? "show" : "")">
     <div class="header">
         <img src="/imgs/untitld logo green.svg" style="max-width:150px;" />
     </div>
@@ -30,21 +30,6 @@
     .greet {
         font-size: 36px;
     }
-
-    .save-button {
-        font-size: 18px;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: 13px 25px;
-        border: none;
-        outline: none;
-        transition: background-color 0.4s ease;
-        background-color: #CDFE00;
-    }
-
-        .save-button.disabled {
-            background-color: #A8A8A8;
-        }
 
     .display-name-input {
         border: none;
@@ -106,7 +91,16 @@
     {
         if (Name?.Length >= MinNameLength)
         {
-            await this.NameSaved.InvokeAsync(this.Name);
+            try
+            {
+                var name = char.ToUpper(Name[0]) + Name.Substring(1);
+                await this.NameSaved.InvokeAsync(name);
+            }
+            catch (Exception)
+            {
+                await this.NameSaved.InvokeAsync(Name);
+            }
+            
         }
     }
 }

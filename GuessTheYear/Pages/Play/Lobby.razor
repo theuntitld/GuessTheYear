@@ -1,54 +1,180 @@
-﻿<div class="page green-bg @(Visible ? "show" : "")" style="padding: 0px;">
-    <div class="header" style="padding: 10px;">
-        <h3 style="margin:0;"><button @onclick="async () => {await SettingsOpened.InvokeAsync();}">⚙️</button>   @Name</h3>
+﻿<div class="page green-bg @(Visible ? "show" : "")">
+    <div class="header" >
+        <a class="setting-button" href="/play" @onclick:preventDefault="true" @onclick="async () => {await SettingsOpened.InvokeAsync();}">
+            <div />
+            <span>@Name</span>
+        </a>
         <img src="/imgs/un symbol bk.svg" style="max-width:50px;"/>
     </div>
 
-    <div class="body @(ShowRules ? "minimize" : "")">
-        <div>
+    <div class="body @(ShowRules ? "small" : "")">
 
-        </div>
-
-        <div>
-            <h1 class="scale-down-on-minimize @(ShowRules ? "minimize" : "")" style="color:black; text-align:center;">The game has not<br />started yet.</h1>
-            <h6 class="hide-on-minimize @(ShowRules ? "minimize" : "")" style="color:black; text-align:center;">Please be patient</h6>
-        </div>
-
-        <div class="hide-on-minimize @(ShowRules ? "minimize" : "")" style="justify-content:center; display:flex;">
-            <h6 @onclick="() => {ShowRules = true;}" style="color:black; text-align:center;">
-                <div style="font-size:25px;">🧾</div>
-                <br/>
-                Maybe read the ruls while you wait.
-            </h6>
+        <div class="waiting-message">
+            <div class="loading-icon" />
+            <h1 class="">The game has<br />not started yet</h1>
+            <h6 class="">Please be patient :]</h6>
         </div>
     </div>
 
-    <div class="footer @(ShowRules ? "maximize" : "") black-bg-on-maximize" style="position:relative;">
-        <span class="hide-on-maximize @(ShowRules ? "maximize" : "")" style="color:grey;">#18402nddf</span>
-        <div class="show-on-maximize @(ShowRules ? "maximize" : "")">
-            <button @onclick="()=>{ ShowRules = false; }" style="float:right; color:#cdfe00; border: 3px solid #cdfe00; border-radius:3px; background-color:black; outline:none; padding:2px 6px; font-size:14px; font-weight:bold;">
-                X
-            </button>
+    <div class="popup @(ShowRules ? "open" : "")">
 
-            <div style="display:flex; flex-direction:column; justify-content:center;">
-                <div style="color:#cdfe00;">
-                    <div style="text-align:center; font-size:25px;">
-                        🧾
-                    </div>
-                    The rules of the game are very simple. Just follow these:
-                </div>
+        <div class="close-icon" @onclick="CloseRules"></div>
 
-                <ul style="color:#cdfe00;">
-                    <li>You will be shown a picture. And your job is to guess the year it was taken in.</li>
-                    <li>The closer the guess is the higher your points.</li>
-                    <li>Get the most points on all rounds and be crowned the winner.</li>
-                </ul>
-            </div>
+        <div class="rules-button" @onclick="OpenRules">
+            <div class="paper-icon"></div>
+            <span>
+                Maybe read the rules<br />while you wait?
+            </span>
+        </div>
+
+        <div class="rules">
+            <p>The rules of the game are very simple just follow these:</p>
+            <ul>
+                <li>You will be shown a picture your job is to guess the year it was taken in.</li>
+                <li>The closer your guess is the higher your points.</li>
+                <li>Get the most points the end of all rounds and be crowned the winner.</li>
+            </ul>
         </div>
     </div>
-
 
 </div>
+
+<style>
+
+    .body {
+        overflow: hidden;
+    }
+
+    .waiting-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        color: #000;
+        text-align: center;
+    }
+
+    .waiting-message .loading-icon {
+        height: 52px;
+        width: 52px;
+        background-image: url(/imgs/loading-icon.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: inline-block;
+        animation: 3s infinite alternate linear rotate;
+        animation-direction: normal;
+    }
+
+    .waiting-message h1 {
+        font-size: 36px;
+        font-weight: 600;
+    }
+
+    .waiting-message h6 {
+        font-size: 18px;
+    }
+
+    .small .waiting-message h1 {
+        font-size: 18px;
+        font-weight: normal;
+    }
+
+    .small .waiting-message h6 {
+        display: none;
+    }
+
+    .small .waiting-message .loading-icon {
+        display: none;
+    }
+
+    .popup {
+        color: #000;
+        font-size: 18px;
+        position: relative;
+        padding-top: 75px;
+        padding-bottom: 75px;
+        height: 40%;
+        overflow: hidden;
+        transition: height 0.6s ease;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .popup.open {
+        background-color: #000;
+        color: #CDFE00;
+        height: 75%;
+    }
+
+    .close-icon {
+        height: 50px;
+        width: 50px;
+        background-image: url(/imgs/close-icon.svg);
+        background-repeat: no-repeat;
+        background-size: 24px 24px;
+        background-position: center center;
+        display: inline-block;
+        position: absolute;
+        right: 22px;
+        top: 22px;
+    }
+
+    .rules-button {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .paper-icon {
+        height: 24px;
+        width: 24px;
+        background-image: url(/imgs/paper-icon.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: inline-block;
+        transition: all 0.6s ease;
+        transition-property: height, width;
+    }
+
+    .open .paper-icon {
+        background-image: url(/imgs/paper-light-icon.svg);
+        height: 31px;
+        width: 31px;
+    }
+
+    .open .rules-button span {
+        display: none;
+    }
+
+    .rules {
+        margin-top: 30px;
+        padding: 0 50px;
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .open .rules {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .rules p {
+        margin-bottom: 24px;
+    }
+
+    .rules ul {
+        margin-bottom: 0;
+    }
+
+    .rules li {
+        margin-bottom: 18px;
+    }
+
+</style>
 
 @code {
     [Parameter]
@@ -60,5 +186,15 @@
     [Parameter]
     public EventCallback<string> SettingsOpened { get; set; }
 
-    private bool ShowRules = false;
+    private bool ShowRules = true;
+
+    private void CloseRules()
+    {
+        ShowRules = false;
+    }
+
+    private void OpenRules()
+    {
+        ShowRules = true;
+    }
 }

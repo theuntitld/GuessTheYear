@@ -19,10 +19,10 @@
 @code {
     private string? name = null;
 
-    private bool showNamePicker = true;
+    private bool showNamePicker = false;
     private bool showLobby = false;
     private bool showGameStarted = false;
-    private bool showScoreboard = false;
+    private bool showScoreboard = true;
 
     private void SaveName()
     {
@@ -31,6 +31,7 @@
 
         // this case is only for testing purposes
         showNamePicker = false;
-        showGameStarted = true;
+        showGameStarted = false;
+        showScoreboard = true;
     }
 }

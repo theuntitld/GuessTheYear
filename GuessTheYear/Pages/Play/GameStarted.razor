@@ -1,6 +1,9 @@
 ﻿<div class="page black-bg @(Visible ? "show" : "")">
     <div class="header">
-        <h3 style="margin:0; color: #cdfe00;"><button @onclick="async () => {await SettingsOpened.InvokeAsync();}">⚙️</button> @Name</h3>
+        <a class="setting-button dark" href="/play" @onclick:preventDefault="true" @onclick="async () => {await SettingsOpened.InvokeAsync();}">
+            <div />
+            <span>@Name</span>
+        </a>
         <img src="/imgs/un symbol gn.svg" style="max-width:50px;" />
     </div>
 
@@ -19,10 +22,24 @@
         </div>
 
         <div style="justify-content:center; display:flex;">
-            <button class="save-button" style="background-color: #cdfe00;" @onclick="async () => { await AnswerSubmitted.InvokeAsync(); }">Submit</button>
+            <button class="save-button"@onclick="SubmitAnswer">Submit</button>
         </div>
     </div>
 </div>
+
+<style>
+    .body {
+        padding-top: 30px;
+    }
+
+    .stage-display {
+        width: 100%;
+        color: #fff;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+    }
+</style>
 
 @code {
     [Parameter]
@@ -36,4 +53,9 @@
 
     [Parameter]
     public EventCallback<string> AnswerSubmitted { get; set; }
+
+    private async Task SubmitAnswer()
+    {
+        await AnswerSubmitted.InvokeAsync();
+    }
 }

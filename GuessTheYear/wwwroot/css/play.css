@@ -39,6 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: 25px;
 }
 
 .page .score-display {
@@ -49,20 +50,12 @@
     color: #cdfe00;
 }
 
-.page .stage-display {
-    width: 100%;
-    color: white;
-    text-align: center;
-}
-
 .black-bg .header {
     border-bottom: 1px solid #cdfe00;
-    padding-bottom: 25px;
 }
 
 .green-bg .header {
     border-bottom: 1px solid black;
-    padding-bottom: 25px;
 }
 
 .page .body {
@@ -81,16 +74,6 @@
     .page .body h1, .page .body h6 {
         transition: 0.5s;
     }
-
-/*.page .body.minimize h1 {
-        font-size: 18px;
-    }
-
-    .page .body.minimize h6 {
-        transform: scale(0);
-        opacity: 0;
-    }*/
-
 
 .scoreboard-row {
     display: flex;
@@ -157,4 +140,57 @@
 
 .hide {
     visibility: hidden;
+}
+
+.save-button {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 13px 25px;
+    border: none;
+    outline: none;
+    transition: background-color 0.4s ease;
+    background-color: #CDFE00;
+}
+
+    .save-button.disabled {
+        background-color: #A8A8A8;
+    }
+
+.setting-button {
+    display: flex;
+    font-size: 22px;
+    color: #000;
+    font-weight: 600;
+    text-decoration: none;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+    .setting-button div {
+        background-image: url(/imgs/gear-icon.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 24px;
+        width: 24px;
+    }
+
+    .setting-button.dark {
+        color: #cdfe00;
+    }
+
+    .setting-button.dark div {
+        background-image: url(/imgs/gear-light-icon.svg);
+    }
+
+
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
