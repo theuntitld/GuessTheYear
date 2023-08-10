@@ -12,7 +12,7 @@
     position: absolute;
     transform: translateY(-30px);
     pointer-events: none;
-    padding: 10px;
+    padding: 48px 16px 0;
 }
 
     .page.show {
@@ -57,12 +57,12 @@
 
 .black-bg .header {
     border-bottom: 1px solid #cdfe00;
-    padding-bottom: 15px;
+    padding-bottom: 25px;
 }
 
 .green-bg .header {
     border-bottom: 1px solid black;
-    padding-bottom: 15px;
+    padding-bottom: 25px;
 }
 
 .page .body {
@@ -91,23 +91,6 @@
         opacity: 0;
     }*/
 
-.display-name-input {
-    border: none;
-    outline: none;
-    background: none;
-    width: 100%;
-    color: #cdfe00;
-    border-bottom: 1px solid #cdfe00;
-    font-size: 17px;
-}
-
-.save-button {
-    border: none;
-    outline: none;
-    transition: 0.3s;
-    font-size: 22px;
-    padding: 10px;
-}
 
 .scoreboard-row {
     display: flex;
