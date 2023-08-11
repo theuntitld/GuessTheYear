@@ -34,8 +34,8 @@
     </div>
 
     <div style="flex:1; overflow:hidden;">
-        <transition-group name="list" tag="ul" style="list-style: none; padding: 0; font-size: 18px; font-weight: 200;">
-            <li v-for="(player, i) in playerScores" :key="player.id" style="border-bottom: 1px solid black; padding: 10px 0; display:flex;">
+        <transition-group name="list" tag="ul" style="list-style: none; padding: 0; font-size: 18px; font-weight: 200; position:relative;">
+            <li v-for="(player, i) in playerScores" :key="player.id" style="border-bottom: 1px solid black; padding: 10px 0; display:flex; width:100%;">
                 <span style="margin-right:10px;">#{{ (i+1) }}</span>
                 <span style="flex:1;">{{ player.name }}</span>
                 <span>{{ player.score }}</span>

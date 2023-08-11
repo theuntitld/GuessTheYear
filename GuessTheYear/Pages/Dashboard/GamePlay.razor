@@ -112,7 +112,7 @@
 
             StateHasChanged(); // Notify Blazor to re-render the component
 
-            await this.JSRuntime.InvokeVoidAsync("updateScores", this._gamePlay.Players.Where(x => x.Enrolled).OrderByDescending(x => x.Score));
+            await this.JSRuntime.InvokeVoidAsync("updateScores", this._gamePlay.Players.OrderByDescending(x => x.Score));
         });
     }
 

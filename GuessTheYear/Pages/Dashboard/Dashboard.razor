@@ -20,8 +20,14 @@
 
             StateHasChanged(); // Notify Blazor to re-render the component
 
-            await this.JSRuntime.InvokeVoidAsync("updateScores", this.GamePlay.Players.Where(x => x.Enrolled).OrderByDescending(x => x.Score));
+            await this.JSRuntime.InvokeVoidAsync("updateScores", this.GamePlay.Players.OrderByDescending(x => x.Score));
         });
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            HandleStageChanged(null, null);
     }
 
     protected override void OnInitialized()
