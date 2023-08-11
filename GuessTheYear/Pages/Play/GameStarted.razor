@@ -1,4 +1,6 @@
-﻿<div class="page black-bg @(Visible ? "show" : "")">
+﻿@inject IJSRuntime JSRuntime
+
+<div class="page black-bg @(Visible ? "show" : "")">
     <div class="header">
         <a class="setting-button dark" href="/play" @onclick:preventDefault="true" @onclick="async () => {await SettingsOpened.InvokeAsync();}">
             <div />
@@ -13,13 +15,22 @@
             <h3>240</h3>
         </div>
         
-        <div class="stage-display">
-            <h1>Stage 01</h1>
-        </div>
+        <h1 class="stage-display">Stage 01</h1>
         
-        <div style="width: 100%; height: 70%;">
-            <div style="border-right: 1px solid #cdfe00; border-left: 1px solid #cdfe00; height: 100%; width: 30%; margin: 0 auto;"></div>
+        <div class="wheel-wrapper">
+            <div id="@WheelId" class="wheel">
+                <ul class="wheel-scroll">
+                    @for (var i = 1900; i < DateTime.Now.Year; i++)
+                    {
+                        <li class="wheel-item">@i</li>
+                    }
+                </ul>
+            </div>
         </div>
+
+@*        <div style="width: 100%; height: 70%;">
+            <div style="border-right: 1px solid #cdfe00; border-left: 1px solid #cdfe00; height: 100%; width: 30%; margin: 0 auto;"></div>
+        </div>*@
 
         <div style="justify-content:center; display:flex;">
             <button class="save-button"@onclick="SubmitAnswer">Submit</button>
@@ -38,6 +49,42 @@
         text-align: center;
         font-size: 24px;
         font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+    .wheel-wrapper {
+        padding: 20px 0;
+        width: 130px;
+        border-inline: 1px solid #CDFE00;
+        overflow: hidden;
+        margin: 0 auto;
+        color: #CDFE00;
+        margin-bottom: 45px;
+    }
+
+    .wheel {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .wheel-scroll {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+        margin-top: 130px;
+    }
+
+    .wheel li {
+        font-size: 20px;
+    }
+
+    .wheel-item[style*="rotateX(0deg)"] {
+        font-size: 28px;
+        font-weight: bold;
+    }
+    
+    .save-button {
+        margin-bottom: 100px;
     }
 </style>
 
@@ -54,8 +101,18 @@
     [Parameter]
     public EventCallback<string> AnswerSubmitted { get; set; }
 
+    private string WheelId = "Wheel" + Guid.NewGuid().ToString();
+
     private async Task SubmitAnswer()
     {
         await AnswerSubmitted.InvokeAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await this.JSRuntime.InvokeVoidAsync("mountWheel", WheelId);
+        }
     }
 }

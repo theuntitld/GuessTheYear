@@ -68,5 +68,29 @@
         }
 
     </script>
+
+    <script src="https://unpkg.com/@@better-scroll/core@latest/dist/core.js"></script>
+    <script src="https://unpkg.com/@@better-scroll/wheel@latest/dist/wheel.js"></script>
+
+    <script>
+
+        BScroll.use(Wheel);
+
+        var wheelOptions = {
+            wheelWrapperClass: 'wheel-scroll',
+            wheelItemClass: 'wheel-item',
+            rotate: 0.1,
+            adjustTime: 400,
+            selectedIndex: 50,
+            wheelDisabledItemClass: 'wheel-disabled-item'
+        }
+
+        function mountWheel(id) {
+
+            window._bsroll = new BScroll('#' + id, {
+                wheel: wheelOptions,
+            });
+        }
+    </script>
 </body>
 </html>

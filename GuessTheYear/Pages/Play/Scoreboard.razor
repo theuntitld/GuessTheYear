@@ -5,28 +5,67 @@
     </div>
     
     <div class="body">
-        <div style="text-align: center;">
-            <h1>Final Scoreboard</h1>
-        </div>
+        <h1 class="title">Final Scoreboard</h1>
         
-        <div style="width: 100%; height: 80%; margin-bottom: 20px;">
-            <div style="height: 100%; width: 65%; margin: 0 auto;">
-                <table style="width: 100%; height: 100%;">
-                    @foreach (var (name, score) in scores)
-                    {
-                        <tr class="scoreboard-row">
-                            <div>
-                                <td>#@(scores.IndexOf((name, score)) + 1)</td>
-                                <td>@name</td>
-                            </div>
-                            <td>@score</td>
-                        </tr>
-                    }
-                </table>
-            </div>
-        </div>
+        <ul class="board">
+            @foreach (var (name, score) in scores)
+            {
+                <li class="@(Name == name ? "current-player" : "")">
+                    <div class="user">
+                        <div class="rank">#@(scores.IndexOf((name, score)) + 1)</div>
+                        <div>@name<span> *</span></div>
+                    </div>
+                    <div class="score">@score</div>
+                </li>
+            }
+        </ul>
     </div>
 </div>
+
+<style>
+    .title {
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .board {
+        list-style: none;
+        padding: 0;
+        width: 250px;
+        margin: 0 auto;
+    }
+
+    .board li {
+        height: 50px;
+        border-bottom: 1px solid #000;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        justify-content: space-between;
+    }
+
+    .board .current-player {
+        font-weight: bold;
+    }
+
+    .board .user {
+        display: flex;
+    }
+
+    .board .rank {
+        width: 36px;
+    }
+    .board .user span {
+        display: none;
+    }
+
+    .board .current-player .user span {
+        display: inline;
+    }
+
+</style>
 
 @code {
 
