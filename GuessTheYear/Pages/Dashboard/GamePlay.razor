@@ -53,9 +53,23 @@
         margin-top: 30px;
         margin-left: -15px;
     }
+
+    .body {
+        gap: 22px;
+    }
+
+    .current-stage {
+        color: #cdfe00;
+        font-weight: 600;
+        font-size: 28px;
+        position: absolute;
+        right: 0;
+        transform: translateY(-100%);
+        top: -14px;
+    }
 </style>
 
-<div class="page padded black-bg @(Visible ? "show" : "")">
+<div class="page dashboard padded black-bg @(Visible ? "show" : "")">
     <div class="header" style="border:none;">
         <img src="/imgs/untitld logo green.svg" style="max-width:150px;" />
     </div>
@@ -71,6 +85,11 @@
                         </div>
                     </div>
                 }
+
+                <div class="current-stage">
+                    <button @onclick="() => _gamePlay.Stage = 0">test</button>
+                    Stage @_gamePlay.Stage.ToString("0#")
+                </div>
             </div>
 
             <div class="ruler" style="display:flex; justify-content: space-around; position:absolute; top:100%; width:100%;">
