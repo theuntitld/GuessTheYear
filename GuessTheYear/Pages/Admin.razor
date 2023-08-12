@@ -2,6 +2,8 @@
 
 @inject Data.GamePlay GamePlay
 @inject IJSRuntime JSRuntime
+@implements IDisposable
+
 
 <style>
 
@@ -44,12 +46,13 @@
     </div>
 
     <div style="flex:1; border-left: 1px solid #d9d9d9;">
-        @foreach (var player in this.GamePlay.Players)
+        @foreach (var player in this.GamePlay.Players.OrderByDescending(x => x.Score))
         {
             <div style="border-bottom:1px solid black; padding:10px 20px; display:flex; flex-direction:column:">
                 <div style="flex:1;">
                     <div>@player.Id</div>
                     <div><strong>@player.Name</strong></div>
+                    <div><strong>@player.Score</strong></div>
                 </div>
                 <button @onclick="@(()=> { this.GamePlay.RemovePlayer(player); })">Remove</button>
             </div>
@@ -73,5 +76,25 @@
             return;
 
         GamePlay.Stage++;
+    }
+
+    private void HandleStageChanged(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield(); // Ensures that the rendering process has a chance to execute
+
+            StateHasChanged(); // Notify Blazor to re-render the component
+        });
+    }
+
+    protected override void OnInitialized()
+    {
+        GamePlay.StageChanged += HandleStageChanged!;
+    }
+
+    public void Dispose()
+    {
+        GamePlay.StageChanged -= HandleStageChanged!;
     }
 }
