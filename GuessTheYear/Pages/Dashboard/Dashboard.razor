@@ -1,0 +1,42 @@
+﻿@page "/"
+
+@inject Data.GamePlay GamePlay
+@implements IDisposable
+@inject IJSRuntime JSRuntime
+
+<Wait Visible="@(GamePlay.Stage == 0)"/>
+
+<GamePlay Visible="@(GamePlay.Stage > 0)" />
+
+
+@code{
+    private bool showWaitScreen = true;
+
+    private void HandleStageChanged(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield(); // Ensures that the rendering process has a chance to execute
+
+            StateHasChanged(); // Notify Blazor to re-render the component
+
+            await this.JSRuntime.InvokeVoidAsync("updateScores", this.GamePlay.Players.OrderByDescending(x => x.Score));
+        });
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            HandleStageChanged(null, null);
+    }
+
+    protected override void OnInitialized()
+    {
+        GamePlay.StageChanged += HandleStageChanged!;
+    }
+
+    public void Dispose()
+    {
+        GamePlay.StageChanged -= HandleStageChanged!;
+    }
+}

@@ -18,15 +18,38 @@
     .list-leave-active {
         position: absolute;
     }
+
+    .score-board{
+        background-color: #cdfe00;
+        height:100%;
+        padding:40px;
+        display:flex;
+        flex-direction:column;
+    }
 </style>
 
-<div id="@id">
-    <h1>Score Board</h1>
-    <transition-group name="list" tag="ul">
-        <li v-for="player in playerScores" :key="player.id">
-            <strong>{{ player.name }}</strong>: {{ player.score }}
-        </li>
-    </transition-group>
+<div id="@id" class="score-board">
+    <div>
+        <h2 style="font-weight:700;">Score Board</h2>
+    </div>
+
+    <div style="flex:1; overflow:hidden;">
+        <transition-group name="list" tag="ul" style="list-style: none; padding: 0; font-size: 18px; font-weight: 200; position:relative;">
+            <li v-for="(player, i) in playerScores" :key="player.id" style="border-bottom: 1px solid black; padding: 10px 0; display:flex; width:100%;">
+                <span style="margin-right:10px;">#{{ (i+1) }}</span>
+                <span style="flex:1;">{{ player.name }}</span>
+                <span>{{ player.score }}</span>
+            </li>
+        </transition-group>
+    </div>
+
+    <div style="display:flex; align-items:center; flex-direction:column;">
+        <img src="/imgs/un astrix.svg" style="width:60px;" />
+        <h2 style="font-weight:700; margin:0; margin-top:-15px; text-align:center;">
+            Guess <br/>
+            The Year
+        </h2>
+    </div>
 </div>
 
 @code {

@@ -1,0 +1,21 @@
+﻿<div class="page padded black-bg @(Visible ? "show" : "")">
+    <div class="header">
+        <img src="/imgs/untitld logo green.svg" style="max-width:150px;" />
+    </div>
+
+    <div class="body">
+        <div class="waiting-message">
+            <div class="loading-icon" />
+            <h1 class="">The game has<br />not started yet</h1>
+            <h6 class="">Please be patient :]</h6>
+        </div>
+    </div>
+
+    <div class="footer border-top-green">
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool Visible { get; set; }
+}

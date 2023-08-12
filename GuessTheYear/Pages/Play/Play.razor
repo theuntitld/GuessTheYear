@@ -1,4 +1,9 @@
-﻿@page "/play-new"
+﻿@page "/play"
+
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedLocalStorage ProtectedLocalStore
+
+@inject Data.GamePlay GamePlay
 
 <DisplayNamePicker Visible="@showNamePicker"
                    NameSaved="(string name) => { this.name = name; this.SaveName(); }" />
@@ -9,7 +14,7 @@
 
 <GameStarted Visible="@showGameStarted"
              SettingsOpened="() => { this.showNamePicker = true; this.showGameStarted = false; }"
-             Name="@name" 
+             Name="@name"
              AnswerSubmitted="() => {this.showGameStarted = false; showScoreboard = true;}" />
 
 <Scoreboard Visible="@showScoreboard"
@@ -18,20 +23,43 @@
 
 @code {
     private string? name = null;
+    string code = default!;
+    public Data.Player? player;
 
-    private bool showNamePicker = false;
+    private bool showNamePicker = true;
     private bool showLobby = false;
     private bool showGameStarted = false;
-    private bool showScoreboard = true;
+    private bool showScoreboard = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var localCodeResult = await ProtectedLocalStore.GetAsync<string>("code");
+
+            if (!localCodeResult.Success)
+            {
+                code = Guid.NewGuid().ToString();
+
+                await ProtectedLocalStore.SetAsync("code", code);
+            }
+            else
+                code = localCodeResult.Value!;
+
+            this.player = this.GamePlay.Players.FirstOrDefault(x => x.Id == code);
+
+            StateHasChanged();
+        }
+    }
 
     private void SaveName()
     {
-        //showNamePicker = false;
-        //showLobby = true;
-
-        // this case is only for testing purposes
         showNamePicker = false;
-        showGameStarted = false;
-        showScoreboard = true;
+        showLobby = true;
+
+        if (this.player != null)
+            this.GamePlay.RemovePlayer(player);
+
+        this.player = this.GamePlay.AddPlayer(code, name!);
     }
 }

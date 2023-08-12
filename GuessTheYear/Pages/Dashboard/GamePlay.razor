@@ -1,0 +1,128 @@
+﻿@inject Data.GamePlay _gamePlay
+@implements IDisposable
+@inject IJSRuntime JSRuntime
+
+<style>
+
+    .animated {
+        opacity: 0;
+        transition: 0.4s;
+        position: absolute;
+        transform: scale(-10%);
+    }
+
+        .animated.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+    .image-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+    .ruler-line {
+        width: 4px;
+        background-color: #cdfe00;
+        height: 20px;
+        position:relative;
+    }
+
+    .ruler-line-slim {
+        width: 1px;
+        background-color: #cdfe00;
+        height: 10px;
+    }
+
+    .ruler-text {
+        color: #cdfe00;
+        position: absolute;
+        left: 0px;
+        margin-top: 30px;
+        margin-left: -15px;
+    }
+</style>
+
+<div class="page padded black-bg @(Visible ? "show" : "")">
+    <div class="header" style="border:none;">
+        <img src="/imgs/untitld logo green.svg" style="max-width:150px;" />
+    </div>
+
+    <div class="body" style="display:flex; flex-direction:row; height:100%;">
+        <div style="flex:1; position:relative;">
+            <div style="position:relative; width:100%; height:100%; border-top:2px solid #cdfe00; border-bottom:4px solid #cdfe00;">
+                @foreach (var item in this._gamePlay.Stages)
+                {
+                    <div class="animated @(this._gamePlay.Stage == item.Key ? "show" : "")" style="width:100%; height:100%;">
+                        <div class="image-container">
+                            <img src="imgs/@(item.Key).jpg" alt="Image">
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="ruler" style="display:flex; justify-content: space-around; position:absolute; top:100%; width:100%;">
+                @for (int i = 1900; i <= 2020; i = i + 10)
+                {
+                    <div class="ruler-line">
+                        <span class="ruler-text">@i</span>
+                    </div>
+                }
+            </div>
+
+            <div class="ruler" style="display:flex; justify-content: space-around; position:absolute; top:100%; width:100%;">
+                @for (int i = 1900; i <= 2020; i = i + 10)
+                {
+                    @for (int j = 0; j < 9; j++)
+                    {
+                        <div class="ruler-line-slim"></div>
+                    }
+                }
+            </div>
+        </div>
+
+        <ScoreBoard />
+    </div>
+
+    <div class="footer" style="min-height:70px;">
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool Visible { get; set; }
+
+    private void HandleStageChanged(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield(); // Ensures that the rendering process has a chance to execute
+
+            StateHasChanged(); // Notify Blazor to re-render the component
+
+            await this.JSRuntime.InvokeVoidAsync("updateScores", this._gamePlay.Players.OrderByDescending(x => x.Score));
+        });
+    }
+
+    protected override void OnInitialized()
+    {
+        this._gamePlay.StageChanged += HandleStageChanged!;
+    }
+
+    public void Dispose()
+    {
+        this._gamePlay.StageChanged -= HandleStageChanged!;
+    }
+}

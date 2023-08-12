@@ -1,7 +1,6 @@
-﻿@page "/"
+﻿@page "/admin"
 
 @inject Data.GamePlay GamePlay
-@implements IDisposable
 @inject IJSRuntime JSRuntime
 
 <style>
@@ -44,8 +43,17 @@
         </div>
     </div>
 
-    <div style="flex:1; padding:20px; background: #eaeaea; border-left: 1px solid #d9d9d9;">
-        <ScoreBoard />
+    <div style="flex:1; border-left: 1px solid #d9d9d9;">
+        @foreach (var player in this.GamePlay.Players)
+        {
+            <div style="border-bottom:1px solid black; padding:10px 20px; display:flex; flex-direction:column:">
+                <div style="flex:1;">
+                    <div>@player.Id</div>
+                    <div><strong>@player.Name</strong></div>
+                </div>
+                <button @onclick="@(()=> { this.GamePlay.RemovePlayer(player); })">Remove</button>
+            </div>
+        }
     </div>
 </div>
 
@@ -65,28 +73,5 @@
             return;
 
         GamePlay.Stage++;
-    }
-
-    protected override void OnInitialized()
-    {
-        GamePlay.StageChanged += HandleStageChanged!;
-    }
-
-    private void HandleStageChanged(object sender, EventArgs e)
-    {
-        InvokeAsync(async () =>
-        {
-            await Task.Yield(); // Ensures that the rendering process has a chance to execute
-
-            StateHasChanged(); // Notify Blazor to re-render the component
-
-            await this.JSRuntime.InvokeVoidAsync("updateScores", this.GamePlay.Players.Where(x => x.Enrolled).OrderByDescending(x => x.Score));
-        });
-    }
-
-    // Don't forget to unsubscribe when the component is disposed
-    public void Dispose()
-    {
-        GamePlay.StageChanged -= HandleStageChanged!;
     }
 }

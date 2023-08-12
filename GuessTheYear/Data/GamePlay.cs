@@ -4,36 +4,6 @@ namespace GuessTheYear.Data;
 
 public class GamePlay
 {
-    public GamePlay() {
-        var validCodes = new List<string>() {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20"
-        };
-
-        foreach (var code in validCodes)
-        {
-            this.Players.Add(new Player { Id = code });
-        }
-    }
-
     public event EventHandler StageChanged = default!;
 
     private int _stage;
@@ -60,17 +30,22 @@ public class GamePlay
         { 4,  1980},
     };
 
-    public Player AddPlayer(string code, string name)
+    public Player? AddPlayer(string code, string name)
     {
         Player? player = Players.FirstOrDefault(x => x.Id == code);
 
-        if (player is null)
+        if (player is not null)
         {
-            return null;
+            return player;
         }
 
-        player.Enrolled = true;
-        player.Name = name;
+        player = new Player
+        {
+            Id = code,
+            Name = name
+        };
+
+        this.Players.Add(player);
 
         OnStageChanged();
 
@@ -79,7 +54,7 @@ public class GamePlay
 
     public void RemovePlayer(Player player)
     {
-        player.Enrolled = false;
+        Players.Remove(player);
         OnStageChanged();
     }
 
@@ -124,7 +99,4 @@ public class Player {
 
     [JsonIgnore]
     public Dictionary<int, int> Answers { get; set; } = new Dictionary<int, int> { };
-
-    [JsonIgnore]
-    public bool Enrolled { get; set; }
 }
