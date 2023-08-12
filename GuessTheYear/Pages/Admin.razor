@@ -38,7 +38,7 @@
         <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; position:relative;">
             @foreach (var item in this.GamePlay.Stages)
             {
-                <img src="imgs/@(item.Key).jpg" style="max-width:100%;" class="animated @(this.GamePlay.Stage == item.Key ? "show" : "")" />
+                <img src="imgs/ImageSet/@(item.Key).jpg" style="max-width:100%;" class="animated @(this.GamePlay.Stage == item.Key ? "show" : "")" />
             }
         </div>
     </div>
