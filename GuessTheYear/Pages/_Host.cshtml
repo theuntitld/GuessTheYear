@@ -86,6 +86,12 @@
             wheelDisabledItemClass: 'wheel-disabled-item'
         }
 
+        function getWheelValue() {
+            var index = window._bsroll.getSelectedIndex();
+
+            return window._bsroll.content.children[index].dataset.value;
+        }
+
         function mountWheel(id) {
 
             window._bsroll = new BScroll('#' + id, {

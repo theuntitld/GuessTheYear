@@ -31,20 +31,18 @@
                 <ul class="wheel-scroll">
                     @for (var i = 1900; i < DateTime.Now.Year; i++)
                     {
-                        <li class="wheel-item">@i</li>
+                        <li class="wheel-item" data-value="@i">@i</li>
                     }
                 </ul>
             </div>
         </div>
-
-        <input @bind-value="answer" />
 
 @*        <div style="width: 100%; height: 70%;">
             <div style="border-right: 1px solid #cdfe00; border-left: 1px solid #cdfe00; height: 100%; width: 30%; margin: 0 auto;"></div>
         </div>*@
 
         <div style="justify-content:center; display:flex;">
-            <button class="save-button"@onclick="SubmitAnswer">Submit</button>
+            <button class="save-button" @onclick="SubmitAnswer">Submit</button>
         </div>
     </div>
 </div>
@@ -127,14 +125,14 @@
 
     private string WheelId = "Wheel" + Guid.NewGuid().ToString();
 
-    private string answer = "0";
-
     int stage;
 
     private async Task SubmitAnswer()
     {
+        var value = await this.JSRuntime.InvokeAsync<string>("getWheelValue");
+
         if (this.Player != null)
-            this.GamePlay.Answer(Player, this.stage, int.Parse(answer));
+            this.GamePlay.Answer(Player, this.stage, int.Parse(value));
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
