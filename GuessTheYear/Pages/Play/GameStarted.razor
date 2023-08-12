@@ -1,10 +1,13 @@
 ﻿@inject IJSRuntime JSRuntime
 
+@inject Data.GamePlay GamePlay
+@implements IDisposable
+
 <div class="page black-bg @(Visible ? "show" : "")">
     <div class="header">
         <a class="setting-button dark" href="/play" @onclick:preventDefault="true" @onclick="async () => {await SettingsOpened.InvokeAsync();}">
             <div />
-            <span>@Name</span>
+            <span>@Player?.Name</span>
         </a>
         <img src="/imgs/un symbol gn.svg" style="max-width:50px;" />
     </div>
@@ -12,10 +15,16 @@
     <div class="body">
         <div class="score-display">
             <h3>SCORE</h3>
-            <h3>240</h3>
+            <h3>@Player?.Score</h3>
         </div>
-        
-        <h1 class="stage-display">Stage 01</h1>
+
+        <div style="position:relative;">
+            <h1 class="stage-display" style="visibility:hidden; opacity:0;">Stage 0</h1>
+            @foreach (var item in this.GamePlay.Stages)
+            {
+                <h1 class="stage-display animated @(this.GamePlay.Stage == item.Key ? "show" : "")">Stage @item.Key</h1>
+            }
+        </div>
         
         <div class="wheel-wrapper">
             <div id="@WheelId" class="wheel">
@@ -42,6 +51,19 @@
     .body {
         padding-top: 30px;
     }
+
+    .animated{
+        opacity: 0;
+        transition: 0.4s;
+        position: absolute;
+        transform: translateY(20px);
+        top:0;
+    }
+
+        .animated.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
     .stage-display {
         width: 100%;
@@ -99,13 +121,16 @@
     public EventCallback<string> SettingsOpened { get; set; }
 
     [Parameter]
-    public EventCallback<string> AnswerSubmitted { get; set; }
+    public Data.Player? Player { get; set; }
 
     private string WheelId = "Wheel" + Guid.NewGuid().ToString();
 
+    int stage;
+
     private async Task SubmitAnswer()
     {
-        await AnswerSubmitted.InvokeAsync();
+        if (this.Player != null)
+            this.GamePlay.Answer(Player, this.stage, 1990);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -114,5 +139,26 @@
         {
             await this.JSRuntime.InvokeVoidAsync("mountWheel", WheelId);
         }
+    }
+
+    protected override void OnInitialized()
+    {
+        this.stage = GamePlay.Stage;
+        GamePlay.StageChanged += HandleStageChanged!;
+    }
+
+    private void HandleStageChanged(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield(); // Ensures that the rendering process has a chance to execute
+            this.stage = GamePlay.Stage;
+            StateHasChanged(); // Notify Blazor to re-render the component
+        });
+    }
+
+    public void Dispose()
+    {
+        GamePlay.StageChanged -= HandleStageChanged!;
     }
 }

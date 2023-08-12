@@ -62,11 +62,25 @@
         color: #cdfe00;
         font-weight: 600;
         font-size: 28px;
-        position: absolute;
-        right: 0;
-        transform: translateY(-100%);
-        top: -14px;
+        position:absolute;
+        right:0;
+        top:-60px;
     }
+
+    .stage-animated {
+        opacity: 0;
+        transition: 0.4s;
+        position: absolute;
+        transform: translateY(-20px);
+        top: 0;
+        width:100%;
+        text-align:right;
+    }
+
+        .stage-animated.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 </style>
 
 <div class="page dashboard padded black-bg @(Visible ? "show" : "")">
@@ -87,8 +101,11 @@
                 }
 
                 <div class="current-stage">
-                    <button @onclick="() => _gamePlay.Stage = 0">test</button>
-                    Stage @_gamePlay.Stage.ToString("0#")
+                    <h1 class="stage-display" style="visibility:hidden; opacity:0;">Stage 0</h1>
+                    @foreach (var item in this._gamePlay.Stages)
+                    {
+                        <h1 class="stage-display stage-animated @(this._gamePlay.Stage == item.Key ? "show" : "")">Stage @item.Key</h1>
+                    }
                 </div>
             </div>
 

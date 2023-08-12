@@ -2,23 +2,25 @@
 
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedLocalStorage ProtectedLocalStore
+@inject Data.GamePlay GamePlay
+@implements IDisposable
 
 @inject Data.GamePlay GamePlay
 
-<DisplayNamePicker Visible="@showNamePicker"
+<DisplayNamePicker Visible="@(showNamePicker && GamePlay.Stage <= GamePlay.Stages.Count)"
                    NameSaved="(string name) => { this.name = name; this.SaveName(); }" />
 
-<Lobby Visible="@showLobby"
-       SettingsOpened="() => { this.showNamePicker = true; this.showLobby = false; }"
+<Lobby Visible="@(!showNamePicker && GamePlay.Stage == 0)"
+       SettingsOpened="() => { this.showNamePicker = true; }"
        Name="@name" />
 
-<GameStarted Visible="@showGameStarted"
-             SettingsOpened="() => { this.showNamePicker = true; this.showGameStarted = false; }"
+<GameStarted Visible="@(!showNamePicker && GamePlay.Stage > 0 && GamePlay.Stage <= GamePlay.Stages.Count)"
+             SettingsOpened="() => { this.showNamePicker = true; }"
              Name="@name"
-             AnswerSubmitted="() => {this.showGameStarted = false; showScoreboard = true;}" />
+             Player="@player" />
 
-<Scoreboard Visible="@showScoreboard"
-            SettingsOpened="() => { this.showNamePicker = true; this.showScoreboard = false; }"
+<Scoreboard Visible="@(GamePlay.Stage > GamePlay.Stages.Count)"
+            SettingsOpened="() => { this.showNamePicker = true; }"
             Name="@name" />
 
 @code {
@@ -27,9 +29,6 @@
     public Data.Player? player;
 
     private bool showNamePicker = true;
-    private bool showLobby = false;
-    private bool showGameStarted = false;
-    private bool showScoreboard = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -55,11 +54,29 @@
     private void SaveName()
     {
         showNamePicker = false;
-        showLobby = true;
 
         if (this.player != null)
             this.GamePlay.RemovePlayer(player);
 
         this.player = this.GamePlay.AddPlayer(code, name!);
+    }
+
+    protected override void OnInitialized()
+    {
+        GamePlay.StageChanged += HandleStageChanged!;
+    }
+
+    private void HandleStageChanged(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield(); // Ensures that the rendering process has a chance to execute
+            StateHasChanged(); // Notify Blazor to re-render the component
+        });
+    }
+
+    public void Dispose()
+    {
+        GamePlay.StageChanged -= HandleStageChanged!;
     }
 }
