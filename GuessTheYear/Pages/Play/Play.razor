@@ -12,7 +12,7 @@
 
 <Lobby Visible="@(!showNamePicker && GamePlay.Stage == 0)"
        SettingsOpened="() => { this.showNamePicker = true; }"
-       Name="@name" />
+       Player="@player" />
 
 <GameStarted Visible="@(!showNamePicker && GamePlay.Stage > 0 && GamePlay.Stage <= GamePlay.Stages.Count)"
              SettingsOpened="() => { this.showNamePicker = true; }"
@@ -21,7 +21,7 @@
 
 <Scoreboard Visible="@(GamePlay.Stage > GamePlay.Stages.Count)"
             SettingsOpened="() => { this.showNamePicker = true; }"
-            Name="@name" />
+            Player="@player" />
 
 @code {
     private string? name = null;

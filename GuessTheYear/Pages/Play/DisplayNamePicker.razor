@@ -5,12 +5,12 @@
 
     <div class="body">
         <div>
-            <h1 class="greet" style="color:white; text-align:center;">Welcome to untitld game</h1>
+            <h1 class="greet" style="color:white; text-align:center;">Welcome to <br /> untitld game</h1>
         </div>
 
         <div class="display-name-chooser">
             <label for="name-input">Choose your display name</label>
-            <input id="name-input" placeholder="Ahmed" @bind-value="Name" @bind-value:event="oninput" class="display-name-input" type="text" maxlength="30" minlength="@MinNameLength" />
+            <input id="name-input" placeholder="e.g. Ahmed Helicopter" @bind-value="Name" @bind-value:event="oninput" class="display-name-input" type="text" maxlength="30" minlength="@MinNameLength" />
 
             <div class="sub-text @(Name != null && Name.Length >= MinNameLength ? "visible" : "")">What a great name</div>
         </div>
@@ -18,10 +18,6 @@
         <div style="justify-content:center; display:flex;">
             <button class="save-button @(Name?.Length >= MinNameLength ? "" : "disabled")" @onclick="SubmitName">Submit</button>
         </div>
-    </div>
-
-    <div class="footer">
-        <span style="color:grey;">#18402nddf</span>
     </div>
 </div>
 
@@ -39,6 +35,7 @@
         color: #CDFE00;
         border-bottom: 1px solid #CDFE00;
         font-size: 18px;
+        border-radius: 0;
     }
 
     .display-name-chooser label {
@@ -60,11 +57,11 @@
         visibility: hidden;
     }
 
-    .display-name-chooser .sub-text.visible {
-        transition: opacity 1.5s ease;
-        visibility: visible;
-        opacity: 1;
-    }
+        .display-name-chooser .sub-text.visible {
+            transition: opacity 1.5s ease;
+            visibility: visible;
+            opacity: 1;
+        }
 
 </style>
 
@@ -81,6 +78,8 @@
 
     private int MinNameLength = 3;
 
+    [Parameter]
+    public Data.Player? Player { get; set; }
 
     private void OnValueChange(ChangeEventArgs e)
     {
@@ -100,7 +99,7 @@
             {
                 await this.NameSaved.InvokeAsync(Name);
             }
-            
+
         }
     }
 }

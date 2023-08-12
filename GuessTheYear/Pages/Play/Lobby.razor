@@ -1,13 +1,13 @@
 ﻿<div class="page green-bg @(Visible ? "show" : "")">
-    <div class="header" >
+    <div class="header">
         <a class="setting-button" href="/play" @onclick:preventDefault="true" @onclick="async () => {await SettingsOpened.InvokeAsync();}">
             <div />
-            <span>@Name</span>
+            <span>@Player?.Name</span>
         </a>
-        <img src="/imgs/un symbol bk.svg" style="max-width:50px;"/>
+        <img src="/imgs/un symbol bk.svg" style="max-width:50px;" />
     </div>
 
-    <div class="body @(ShowRules ? "small" : "")">
+    <div class="body @(ShowRules ? "small" : "")" style="overflow:visible;">
 
         <div class="waiting-message">
             <div class="loading-icon" />
@@ -59,13 +59,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        background-color: #CDFE00;
     }
 
-    .popup.open {
-        background-color: #000;
-        color: #CDFE00;
-        height: 75%;
-    }
+        .popup.open {
+            background-color: #000;
+            color: #CDFE00;
+            height: 75%;
+        }
 
     .close-icon {
         height: 50px;
@@ -114,6 +115,7 @@
         padding: 0 50px;
         opacity: 0;
         visibility: hidden;
+        transition: 0.4s;
     }
 
     .open .rules {
@@ -140,6 +142,14 @@
         }
     }
 
+    .small {
+        transform: scale(0.5);
+    }
+
+        .small .loading-icon, .small h6 {
+            opacity: 0;
+        }
+
 </style>
 
 @code {
@@ -147,7 +157,7 @@
     public bool Visible { get; set; }
 
     [Parameter]
-    public string Name { get; set; } = default!;
+    public Data.Player? Player { get; set; }
 
     [Parameter]
     public EventCallback<string> SettingsOpened { get; set; }

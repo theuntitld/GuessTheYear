@@ -153,6 +153,7 @@
     padding: 13px 25px;
     border: none;
     outline: none;
+    color:black;
     transition: background-color 0.4s ease;
     background-color: #CDFE00;
 }
@@ -238,17 +239,4 @@
 
 .waiting-message h6 {
     font-size: 18px;
-}
-
-.small .waiting-message h1 {
-    font-size: 18px;
-    font-weight: normal;
-}
-
-.small .waiting-message h6 {
-    display: none;
-}
-
-.small .waiting-message .loading-icon {
-    display: none;
 }

@@ -1,7 +1,7 @@
 ﻿<div class="page green-bg @(Visible ? "show" : "")">
     <div class="header">
         <img src="/imgs/Untitld Logo Black.svg" style="max-width:150px;" />
-        <h3 style="margin:0; color: black;">@Name</h3>
+        <h3 style="margin:0; color: black;">@Player?.Name</h3>
     </div>
     
     <div class="body scoreboard">
@@ -10,7 +10,7 @@
         <ul class="board">
             @foreach (var (name, score) in scores)
             {
-                <li class="@(Name == name ? "current-player" : "")">
+                <li class="@(Player?.Name == name ? "current-player" : "")">
                     <div class="user">
                         <div class="rank">#@(scores.IndexOf((name, score)) + 1)</div>
                         <div>@name<span> *</span></div>
@@ -93,7 +93,7 @@
     public bool Visible { get; set; }
 
     [Parameter]
-    public string Name { get; set; } = default!;
+    public Data.Player? Player { get; set; }
 
     [Parameter]
     public EventCallback<string> SettingsOpened { get; set; }
