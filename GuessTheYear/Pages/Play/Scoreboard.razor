@@ -77,9 +77,6 @@
     [Parameter]
     public EventCallback<string> SettingsOpened { get; set; }
 
-    [Parameter]
-    public Data.Player? Player { get; set; }
-
     private void HandleStageChanged(object sender, EventArgs e)
     {
         InvokeAsync(async () =>
