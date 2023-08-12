@@ -1,4 +1,6 @@
-﻿<div class="page padded black-bg @(Visible ? "show" : "")">
+﻿@inject Data.GamePlay GamePlay
+
+<div class="page dashboard padded black-bg @(Visible ? "show" : "")">
     <div class="header">
         <img src="/imgs/untitld logo green.svg" style="max-width:150px;" />
     </div>
@@ -8,12 +10,19 @@
             <div class="loading-icon" />
             <h1 class="">The game has<br />not started yet</h1>
             <h6 class="">Please be patient :]</h6>
+            <button @onclick="() => GamePlay.Stage = 1">test</button>
         </div>
     </div>
 
     <div class="footer border-top-green">
     </div>
 </div>
+
+<style>
+    .footer {
+        padding: 0;
+    }
+</style>
 
 @code {
     [Parameter]
