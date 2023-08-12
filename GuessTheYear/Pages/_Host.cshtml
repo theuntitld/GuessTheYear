@@ -36,8 +36,9 @@
     <script src="_framework/blazor.server.js"></script>
 
     <script>
+        const { createApp } = Vue
+
         window.scoreBoardVueApp = function (id) {
-            const { createApp } = Vue
 
             const app = createApp({
                 data() {
@@ -83,6 +84,12 @@
             adjustTime: 400,
             selectedIndex: 50,
             wheelDisabledItemClass: 'wheel-disabled-item'
+        }
+
+        function getWheelValue() {
+            var index = window._bsroll.getSelectedIndex();
+
+            return window._bsroll.content.children[index].dataset.value;
         }
 
         function mountWheel(id) {

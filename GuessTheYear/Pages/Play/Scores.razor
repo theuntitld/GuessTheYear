@@ -1,0 +1,29 @@
+﻿@inject IJSRuntime JSRuntime
+
+
+<div id="@id" >
+    <transition-group class="board" name="list" tag="ul">
+        <li v-for="(player, i) in playerScores.slice(0, 12)" :key="player.id" :data-id="player.id">
+            <div class="user">
+                <div class="rank">#{{ (i+1) }}</div>
+                <div>{{ player.name }}<span> *</span></div>
+            </div>
+            <div class="score">{{ player.score }}</div>
+        </li>
+    </transition-group>
+</div>
+
+@code {
+
+    string id = "id-" + Guid.NewGuid().ToString();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("scoreBoardVueApp", this.id);
+    }
+
+    protected override bool ShouldRender()
+    {
+        return false;
+    }
+}
