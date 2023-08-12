@@ -21,7 +21,8 @@
 
 <Scoreboard Visible="@(GamePlay.Stage > GamePlay.Stages.Count)"
             SettingsOpened="() => { this.showNamePicker = true; }"
-            Name="@name" />
+            Name="@name"
+            Player="@player" />
 
 @code {
     private string? name = null;

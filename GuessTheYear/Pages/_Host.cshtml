@@ -36,8 +36,9 @@
     <script src="_framework/blazor.server.js"></script>
 
     <script>
+        const { createApp } = Vue
+
         window.scoreBoardVueApp = function (id) {
-            const { createApp } = Vue
 
             const app = createApp({
                 data() {

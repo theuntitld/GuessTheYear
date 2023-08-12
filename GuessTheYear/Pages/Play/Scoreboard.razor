@@ -1,24 +1,17 @@
-﻿<div class="page green-bg @(Visible ? "show" : "")">
+﻿@implements IDisposable
+@inject Data.GamePlay GamePlay
+@inject IJSRuntime JSRuntime
+
+<div class="page green-bg @(Visible ? "show" : "")">
     <div class="header">
         <img src="/imgs/Untitld Logo Black.svg" style="max-width:150px;" />
         <h3 style="margin:0; color: black;">@Name</h3>
     </div>
     
-    <div class="body scoreboard">
+    <div class="body scoreboard score-board">
         <h1 class="title">Final Scoreboard</h1>
         
-        <ul class="board">
-            @foreach (var (name, score) in scores)
-            {
-                <li class="@(Name == name ? "current-player" : "")">
-                    <div class="user">
-                        <div class="rank">#@(scores.IndexOf((name, score)) + 1)</div>
-                        <div>@name<span> *</span></div>
-                    </div>
-                    <div class="score">@score</div>
-                </li>
-            }
-        </ul>
+        <Scores></Scores>
     </div>
 </div>
 
@@ -52,7 +45,7 @@
         justify-content: space-between;
     }
 
-    .board .current-player {
+    .board [data-id='@Player?.Id'] {
         font-weight: bold;
     }
 
@@ -67,7 +60,7 @@
         display: none;
     }
 
-    .board .current-player .user span {
+    .board [data-id='@Player?.Id'] .user span {
         display: inline;
     }
 
@@ -75,20 +68,6 @@
 
 @code {
 
-    private List<(string name, int score)> scores = new List<(string name, int score)>()
-    {
-        ("Ahmed", 100),
-        ("Mohamed", 200),
-        ("Ali", 300),
-        ("Hassan", 400),
-        ("Khaled", 500),
-        ("Omar", 600),
-        ("Mahmoud", 700),
-        ("Youssef", 800),
-        ("Amr", 900),
-        ("Ibrahim", 1000),
-    };
-    
     [Parameter]
     public bool Visible { get; set; }
 
@@ -97,4 +76,35 @@
 
     [Parameter]
     public EventCallback<string> SettingsOpened { get; set; }
+
+    [Parameter]
+    public Data.Player? Player { get; set; }
+
+    private void HandleStageChanged(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield(); // Ensures that the rendering process has a chance to execute
+
+            StateHasChanged(); // Notify Blazor to re-render the component
+
+            await this.JSRuntime.InvokeVoidAsync("updateScores", this.GamePlay.Players.OrderByDescending(x => x.Score));
+        });
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            HandleStageChanged(null, null);
+    }
+
+    protected override void OnInitialized()
+    {
+        GamePlay.StageChanged += HandleStageChanged!;
+    }
+
+    public void Dispose()
+    {
+        GamePlay.StageChanged -= HandleStageChanged!;
+    }
 }
