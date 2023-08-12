@@ -37,6 +37,8 @@
             </div>
         </div>
 
+        <input @bind-value="answer" />
+
 @*        <div style="width: 100%; height: 70%;">
             <div style="border-right: 1px solid #cdfe00; border-left: 1px solid #cdfe00; height: 100%; width: 30%; margin: 0 auto;"></div>
         </div>*@
@@ -125,18 +127,21 @@
 
     private string WheelId = "Wheel" + Guid.NewGuid().ToString();
 
+    private string answer = "0";
+
     int stage;
 
     private async Task SubmitAnswer()
     {
         if (this.Player != null)
-            this.GamePlay.Answer(Player, this.stage, 1990);
+            this.GamePlay.Answer(Player, this.stage, int.Parse(answer));
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            await Task.Yield();
             await this.JSRuntime.InvokeVoidAsync("mountWheel", WheelId);
         }
     }
