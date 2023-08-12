@@ -43,6 +43,7 @@
 
     .body {
         overflow: hidden;
+        min-height: 100px;
     }
 
     .waiting-message {
@@ -172,6 +173,13 @@
 
     .rules li {
         margin-bottom: 18px;
+    }
+
+    @@media (max-height: 740px) {
+        .popup {
+            padding-top: 40px;
+            font-size: 16px;
+        }
     }
 
 </style>
