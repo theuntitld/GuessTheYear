@@ -1,4 +1,4 @@
-﻿@page "/admin"
+﻿@page "/admin-1G6DM577740151917-6012b908-4521-4e16-8770-5b7f9eca585f"
 
 @inject Data.GamePlay GamePlay
 @inject IJSRuntime JSRuntime
@@ -40,7 +40,7 @@
         <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%; position:relative;">
             @foreach (var item in this.GamePlay.Stages)
             {
-                <img src="imgs/ImageSet/@(item.Key).jpg" style="max-width:100%;" class="animated @(this.GamePlay.Stage == item.Key ? "show" : "")" />
+                <img src="imgs/ImageSet/@(item.Key).jpg" style="max-width:100%; max-height:100%;" class="animated @(this.GamePlay.Stage == item.Key ? "show" : "")" />
             }
         </div>
     </div>
